@@ -64,7 +64,7 @@
 
 -- Turns column mode on but headers off
 .mode column
-.headers off
+.headers on
 
 -- Drop existing tables, so you'll start fresh each time this script is run.
 -- TODO!
@@ -81,6 +81,12 @@
 .print "======"
 .print ""
 
+SELECT movies.title, movies.year, movies.mpaa_rating, directors.name
+FROM movies
+INNER JOIN directors ON movies.director_id=directors.id
+;
+
+
 -- The SQL statement for the movies output
 -- TODO!
 
@@ -93,3 +99,53 @@
 
 -- The SQL statement for the cast output
 -- TODO!
+
+DROP TABLE IF EXISTS directors;
+DROP TABLE IF EXISTS movies;
+DROP TABLE IF EXISTS actors;
+
+CREATE TABLE directors (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name
+);
+
+CREATE TABLE movies (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    director_id INTEGER,
+    title TEXT,
+    year TEXT,
+    mpaa_rating TEXT
+);
+
+CREATE TABLE actors (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    movie_id INTEGER,
+    name TEXT,
+    role TEXT
+);
+
+INSERT INTO movies (director_id, title, year, mpaa_rating)
+VALUES ('1', 'Batman Begins', '2005', 'PG-13');
+
+INSERT INTO movies (director_id, title, year, mpaa_rating)
+VALUES ('1', 'The Dark Knight','2008', 'PG-13');
+
+INSERT INTO movies (director_id, title, year, mpaa_rating)
+VALUES ('1', 'The Dark Knight Rises','2012', 'PG-13');
+
+
+INSERT INTO directors (name)
+VALUES ('Christopher Nolan');
+
+INSERT INTO actors (movie_id, name, role)
+VALUES ('1', 'Christian Bale', 'Bruce Wayne');
+
+INSERT INTO actors (movie_id, name, role)
+VALUES ('2', 'Heath Ledger', 'Joker');
+
+INSERT INTO actors (movie_id, name, role)
+VALUES ('3', 'Maggie Gyllenhaal', 'Rachel Dawes');
+
+SELECT movies.title, actors.name, actors.role
+FROM movies
+INNER JOIN actors ON actors.movie_id=movies.id;
